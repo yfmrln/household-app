@@ -46,24 +46,50 @@ const Home = () =>
     ); 
   },[monthlyTransactions, currentDay]);
 
+  //×ボタン押下時
   const closeForm = () => {
-    setIsEntryDrawerOpen(!isEntryDrawerOpen);
-  };
+    setSelectedTransaction(null);
 
-  // フォームの開閉処理
-  const handleAddTransactionForm = () => {
-    if (selectedTransaction) {
-      setSelectedTransaction(null);
+    if (isMobile) {
+      setIsDialogOpen(!isDialogOpen);
     } else {
       setIsEntryDrawerOpen(!isEntryDrawerOpen);
     }
   };
 
+  // フォームの開閉処理
+  const handleAddTransactionForm = () => {
+    if (isMobile) {
+      setIsDialogOpen(true);
+    } else {
+      if (selectedTransaction) {
+        setSelectedTransaction(null);
+      } else {
+        setIsEntryDrawerOpen(!isEntryDrawerOpen);
+      }
+    }
+  };
+
   //取引が選択されたときの処理
   const handleSelectTransaction = (transaction: Transaction) => {
-    setIsEntryDrawerOpen(true);
     setSelectedTransaction(transaction);
-  }
+    if (isMobile) {
+      setIsDialogOpen(true);
+    } else {
+      setIsEntryDrawerOpen(true);
+    }
+  };
+
+  // モバイル用Drawerを閉じる処理
+  const handleCloseMobileDrawer = () => {
+    setIsMobileDrawerOpen(false);
+  };
+
+  // 日付を選択したときの処理
+  const handleDateClick = (dateInfo: DateClickArg) => {
+    setCurrentDay(dateInfo.dateStr);
+    setIsMobileDrawerOpen(true);
+  };
 
   return (
     <Box sx={{display: "flex"}}>
@@ -78,6 +104,7 @@ const Home = () =>
           setCurrentDay={setCurrentDay}
           currentDay={currentDay}
           today={today}
+          onDateClick={handleDateClick}
         />
       </Box>
 
@@ -102,6 +129,8 @@ const Home = () =>
           setSelectedTransaction={setSelectedTransaction}
           // onUpdateTransaction={onUpdateTransaction}
           // isMobile={isMobile}
+          // isDialogOpen={isDialogOpen}
+          // setIsDialogOpen={setIsDialogOpen}
         />
       </Box>
     </Box>
