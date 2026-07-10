@@ -13,7 +13,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { JSX, useEffect, useState } from "react";
+import React, { JSX, useContext, useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close"; // 閉じるボタン用のアイコン
 import FastfoodIcon from "@mui/icons-material/Fastfood"; //食事アイコン
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -28,16 +28,20 @@ import SavingsIcon from "@mui/icons-material/Savings";
 import { ExpenseCategory, IncomeCategory, Transaction } from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Schema, transactionShema } from "../validations/schema";
+import { AppContext, useAppContext } from "../context/AppContext";
 
 interface TransactionFormProps {
   onCloseForm: () => void;
   isEntryDrawerOpen: boolean;
   currentDay: string;
-  onSaveTransaction: (transaction: Schema) => Promise<void>;
+  // onSaveTransaction: (transaction: Schema) => Promise<void>;
   selectedTransaction:  Transaction | null;
-  onDeleteTransaction: (transactionId: string | readonly string[]) => Promise<void>;
+  // onDeleteTransaction: (transactionId: string | readonly string[]) => Promise<void>;
   setSelectedTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>;
-  onUpdateTransaction:  (transaction:Schema, transactionId: string) => Promise<void>;
+  // onUpdateTransaction:  (transaction:Schema, transactionId: string) => Promise<void>;
+  // isDialogOpen: boolean;
+  // setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  // isMobile: boolean;
 }
 
 type IncomeExpense = "income" | "expense";
@@ -51,12 +55,25 @@ const TransactionForm = ({
   onCloseForm,
   isEntryDrawerOpen,
   currentDay,
-  onSaveTransaction,
+  // onSaveTransaction,
   selectedTransaction,
-  onDeleteTransaction,
+  // onDeleteTransaction,
   setSelectedTransaction,
-  onUpdateTransaction,
+  // onUpdateTransaction,
+  // setIsDialogOpen,
+  // isMobile,
 }: TransactionFormProps) => {
+
+  // const context = useContext(AppContext);
+  // const context = useAppContext();
+
+  const {
+    isMobile,
+    onSaveTransaction,
+    onDeleteTransaction,
+    onUpdateTransaction,
+  } = useAppContext();
+
   const formWidth = 320;
 
   const expenseCategories: CategoryItem[] = [

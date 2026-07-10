@@ -3,18 +3,26 @@ import { Pie } from 'react-chartjs-2'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartData } from 'chart.js';
 import { Box, CircularProgress, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from '@mui/material';
 import { ExpenseCategory, IncomeCategory, Transaction, TransactionType } from '../types';
+import { useAppContext } from '../context/AppContext';
+import useMonthlyTransactions from '../hooks/useMonthlyTransactions';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-interface CategoryChartProps {
-  monthlyTransactions: Transaction[];
-  isLoading: boolean;
-}
+// interface CategoryChartProps {
+//   monthlyTransactions: Transaction[];
+//   isLoading: boolean;
+// }
 
-const CategoryChart = ({ monthlyTransactions, isLoading }: CategoryChartProps) => {
+const CategoryChart = (
+  // { 
+  //   monthlyTransactions, 
+  //   isLoading 
+  // }: CategoryChartProps
+) => {
 
+  const { isLoading } = useAppContext();
+  const monthlyTransactions = useMonthlyTransactions();
   const theme = useTheme();
-
   const [selectedType, setSelectedType] = useState<TransactionType>("expense");
 
   const handleChange = (
