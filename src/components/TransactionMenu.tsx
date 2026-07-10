@@ -28,8 +28,8 @@ interface TransactionMenuProps {
   currentDay: string;
   onAddTransactionForm: () => void;
   onSelectTransaction: (transaction: Transaction) => void;
-  // open: boolean;
-  // onClose: () => void;
+  open: boolean;
+  onClose: () => void;
   // isMobile: boolean;
 }
 
@@ -38,8 +38,8 @@ const TransactionMenu = ({
   currentDay,
   onAddTransactionForm,
   onSelectTransaction,
-  // open,
-  // onCLose,
+  open,
+  onClose,
   // isMobile,
 }: TransactionMenuProps) => {
 

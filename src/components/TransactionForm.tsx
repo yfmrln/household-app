@@ -41,8 +41,8 @@ interface TransactionFormProps {
   // onDeleteTransaction: (transactionId: string | readonly string[]) => Promise<void>;
   setSelectedTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>;
   // onUpdateTransaction:  (transaction:Schema, transactionId: string) => Promise<void>;
-  // isDialogOpen: boolean;
-  // setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isDialogOpen: boolean;
+  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   // isMobile: boolean;
 }
 
@@ -62,9 +62,9 @@ const TransactionForm = ({
   // onDeleteTransaction,
   setSelectedTransaction,
   // onUpdateTransaction,
-  // setIsDialogOpen,
+  setIsDialogOpen,
   // isMobile,
-  // isDialogOpen,
+  isDialogOpen,
 }: TransactionFormProps) => {
 
   // const context = useContext(AppContext);

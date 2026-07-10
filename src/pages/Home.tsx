@@ -9,6 +9,7 @@ import { formatDate } from 'date-fns'
 import { Schema } from '../validations/schema'
 import useMonthlyTransactions from '../hooks/useMonthlyTransactions'
 import { useAppContext } from '../context/AppContext'
+import { DateClickArg } from '@fullcalendar/interaction/index.js'
 
 // interface HomeProps {
 //   monthlyTransactions: Transaction[],
@@ -115,8 +116,8 @@ const Home = () =>
           currentDay={currentDay}
           onAddTransactionForm={handleAddTransactionForm}
           onSelectTransaction={handleSelectTransaction}
-          // open={isMobileDrawerOpen}
-          // onClose={handleCloseMobileDrawer}
+          open={isMobileDrawerOpen}
+          onClose={handleCloseMobileDrawer}
           // isMobile={isMobile}
         />
         <TransactionForm 
@@ -129,8 +130,8 @@ const Home = () =>
           setSelectedTransaction={setSelectedTransaction}
           // onUpdateTransaction={onUpdateTransaction}
           // isMobile={isMobile}
-          // isDialogOpen={isDialogOpen}
-          // setIsDialogOpen={setIsDialogOpen}
+          isDialogOpen={isDialogOpen}
+          setIsDialogOpen={setIsDialogOpen}
         />
       </Box>
     </Box>
