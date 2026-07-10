@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 
+//日付の形式を変換する関数
 export function formatMonth(date: Date):string {
     return format(date, "yyyy-MM");
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import MonthlySummary from '../components/MonthlySummary'
 import Calendar from '../components/Calendar'
 import TransactionMenu from '../components/TransactionMenu'
@@ -7,23 +7,28 @@ import { Box, useMediaQuery, useTheme } from '@mui/material'
 import { Transaction } from '../types'
 import { formatDate } from 'date-fns'
 import { Schema } from '../validations/schema'
-import { DateClickArg } from '@fullcalendar/interaction/index.js'
+import useMonthlyTransactions from '../hooks/useMonthlyTransactions'
+import { useAppContext } from '../context/AppContext'
 
-interface HomeProps {
-  monthlyTransactions: Transaction[],
-  setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
-  onSaveTransaction: (transaction:Schema) => Promise<void>;
-  onDeleteTransaction: (transactionId:string | readonly string[]) => Promise<void>;
-  onUpdateTransaction:  (transaction:Schema, transactionId: string) => Promise<void>
-}
+// interface HomeProps {
+//   monthlyTransactions: Transaction[],
+//   setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
+//   onSaveTransaction: (transaction:Schema) => Promise<void>;
+//   onDeleteTransaction: (transactionId:string | readonly string[]) => Promise<void>;
+//   onUpdateTransaction:  (transaction:Schema, transactionId: string) => Promise<void>
+// }
 
-const Home = ({
-  monthlyTransactions,
-  setCurrentMonth,
-  onSaveTransaction,
-  onDeleteTransaction,
-  onUpdateTransaction,
-}: HomeProps) => {
+const Home = () =>
+// {  
+//   monthlyTransactions,
+//   setCurrentMonth,
+//   onSaveTransaction,
+//   onDeleteTransaction,
+//   onUpdateTransaction,
+// }: HomeProps) =>
+{
+  const { isMobile } = useAppContext();
+  const monthlyTransactions = useMonthlyTransactions();
   const today = formatDate(new Date(), "yyyy-MM-dd");
   const [currentDay, setCurrentDay] = useState(today);
   const [isEntryDrawerOpen, setIsEntryDrawerOpen] = useState(false);
@@ -31,13 +36,15 @@ const Home = ({
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
+  // const theme = useTheme();
+  // const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   // 一日分のデータを取得
-  const dailyTransactions = monthlyTransactions.filter((transaction) => {
-    return transaction.date === currentDay;
-  });
+  const dailyTransactions = useMemo(() => {
+    return monthlyTransactions.filter(
+      (transaction) => transaction.date === currentDay
+    ); 
+  },[monthlyTransactions, currentDay]);
 
   //×ボタン押下時
   const closeForm = () => {
@@ -88,10 +95,12 @@ const Home = ({
     <Box sx={{display: "flex"}}>
       {/* 左側コンテンツ */}
       <Box sx={{flexGrow: 1}}>
-        <MonthlySummary monthlyTransactions={monthlyTransactions} />
+        <MonthlySummary 
+          // monthlyTransactions={monthlyTransactions} 
+        />
         <Calendar 
-          monthlyTransactions={monthlyTransactions} 
-          setCurrentMonth={setCurrentMonth} 
+          // monthlyTransactions={monthlyTransactions} 
+          // setCurrentMonth={setCurrentMonth} 
           setCurrentDay={setCurrentDay}
           currentDay={currentDay}
           today={today}
@@ -106,22 +115,22 @@ const Home = ({
           currentDay={currentDay}
           onAddTransactionForm={handleAddTransactionForm}
           onSelectTransaction={handleSelectTransaction}
-          isMobile={isMobile}
-          open={isMobileDrawerOpen}
-          onClose={handleCloseMobileDrawer}
+          // open={isMobileDrawerOpen}
+          // onClose={handleCloseMobileDrawer}
+          // isMobile={isMobile}
         />
         <TransactionForm 
           onCloseForm={closeForm}
           isEntryDrawerOpen={isEntryDrawerOpen}
           currentDay={currentDay}
-          onSaveTransaction={onSaveTransaction}
+          // onSaveTransaction={onSaveTransaction}
           selectedTransaction={selectedTransaction}
-          onDeleteTransaction={onDeleteTransaction}
+          // onDeleteTransaction={onDeleteTransaction}
           setSelectedTransaction={setSelectedTransaction}
-          onUpdateTransaction={onUpdateTransaction}
-          isMobile={isMobile}
-          isDialogOpen={isDialogOpen}
-          setIsDialogOpen={setIsDialogOpen}
+          // onUpdateTransaction={onUpdateTransaction}
+          // isMobile={isMobile}
+          // isDialogOpen={isDialogOpen}
+          // setIsDialogOpen={setIsDialogOpen}
         />
       </Box>
     </Box>
