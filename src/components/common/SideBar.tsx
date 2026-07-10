@@ -87,9 +87,9 @@ const Sidebar = ({drawerWidth,mobileOpen,handleDrawerToggle}:SidebarProps) => {
             display: { xs: 'block', md: 'none' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
-            ModalProps={{
+          ModalProps={{
             keepMounted: true,
-            }}
+          }}
         >
           {drawer}
         </Drawer>
